@@ -23,17 +23,17 @@
 
           <ng-container matColumnDef="pasajero">
             <th mat-header-cell *matHeaderCellDef class="text-center">Pasajero</th>
-            <td mat-cell *matCellDef="let ticket"> {{ticket.passengers[0].nombreCompleto} </td>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.passengers.nombreCompleto}} </td>
           </ng-container>
 
           <ng-container matColumnDef="vuelo">
             <th mat-header-cell *matHeaderCellDef class="text-center">Vuelo</th>
-            <td mat-cell *matCellDef="let ticket"> {{ticket.fligths[0].descripcion}} </td>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.flights.descripcion}} </td>
           </ng-container>
 
           <ng-container matColumnDef="avion">
             <th mat-header-cell *matHeaderCellDef class="text-center">Avión</th>
-            <td mat-cell *matCellDef="let ticket"> {{ticket.airplanes[0].aerolinea}} </td>
+            <td mat-cell *matCellDef="let ticket"> {{ticket.airplanes.aerolinea}} </td>
           </ng-container>
 
           <ng-container matColumnDef="edit">

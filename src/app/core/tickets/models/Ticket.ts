@@ -5,11 +5,11 @@ import { Passenger } from '../../passenger/models/Passenger';
 export class Ticket {
   constructor(
     public id?: number,
-    public valorTickete?: DoubleRange,
+    public valorTiquete?: DoubleRange,
     public ivaTiquete?: DoubleRange,
-    public descuentoTickete?: DoubleRange,
-    public flights?: Flights[],
-    public airplanes?: Airplanes[],
-    public paseengers?: Passenger[]
+    public descuentoTiquete?: DoubleRange,
+    public flights?: Flights,
+    public airplanes?: Airplanes,
+    public passengers?: Passenger
   ) {}
 }

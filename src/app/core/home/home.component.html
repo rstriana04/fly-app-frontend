@@ -4,8 +4,38 @@
 </header>
 
 <main>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aut error est facere itaque, magni minus
-  necessitatibus nesciunt obcaecati perspiciatis placeat provident quae quia quidem quos sequi sint tempore, ut.
+  <div class="container">
+    <h1 class="text-center">¡Encuentra tú vuelo ideal!</h1>
+    <div class="row mt-1">
+      <ng-container *ngFor="let ticket of tickets$ | async">
+        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mt-1 mb-2">
+          <mat-card class="example-card">
+            <mat-card-header>
+              <img mat-card-avatar
+                   src="https://www.ecestaticos.com/imagestatic/clipping/1c6/055/1c60551557177c62a9bb1bec5eda00ba/por-que-los-aviones-apagan-las-luces-durante-el-despegue-y-el-aterrizaje.jpg?mtime=1550502062" alt="Tiquete">
+              <mat-card-title><h6 class="text-nowrap">{{ticket.flights.descripcion}}</h6></mat-card-title>
+              <mat-card-subtitle><h6 class="text-nowrap">{{ticket.airplanes.aerolinea}}</h6></mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image
+                 src="https://www.ecestaticos.com/imagestatic/clipping/1c6/055/1c60551557177c62a9bb1bec5eda00ba/por-que-los-aviones-apagan-las-luces-durante-el-despegue-y-el-aterrizaje.jpg?mtime=1550502062" alt="Tiquete">
+            <mat-card-content>
+              <ul>
+                <li>Pasajero: {{ticket.passengers.nombreCompleto}}</li>
+                <li>Descuento: {{ticket.descuentoTiquete}}</li>
+                <li>Iva: {{ticket.ivaTiquete}}</li>
+                <li>Valor: {{ticket.valorTiquete}}</li>
+              </ul>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button>LIKE</button>
+              <button mat-button>SHARE</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
 </main>
 
 <fly-footer></fly-footer>

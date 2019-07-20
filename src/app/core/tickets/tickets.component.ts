@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatPaginator } from '@angular/material';
+import { MatDialog, MatPaginator } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { auditTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { Passenger } from '../passenger/models/Passenger';
 import { PassengerService } from '../passenger/services/passenger.service';
 import { Ticket } from './models/Ticket';
 import { TicketsService } from './services/tickets.service';
+import { ShowPopupEditTicketsComponent } from './show-popup-edit-tickets/show-popup-edit-tickets.component';
 
 @Component({
   selector: 'fly-tickets',
@@ -37,7 +38,8 @@ export class TicketsComponent implements OnInit {
     private airplanesService: AirplanesService,
     private flightsServices: FlightsService,
     private ticketsService: TicketsService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -171,7 +173,18 @@ export class TicketsComponent implements OnInit {
     this.tickets$ = this.ticketsService.getAllTickets();
   }
 
-  public showEditTicket(id: any) {
-    
+  public showEditTicket(id: number) {
+    const dialogRef = this.matDialog.open(ShowPopupEditTicketsComponent, {
+      width: '500px',
+      data: id
+    });
+
+    dialogRef.afterClosed().subscribe(resp => {
+      console.log(resp);
+      if (resp) {
+        this.refresh();
+      }
+    })
+
   }
 }

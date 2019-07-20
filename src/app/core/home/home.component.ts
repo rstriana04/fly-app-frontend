@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Ticket } from '../tickets/models/Ticket';
+import { TicketsService } from '../tickets/services/tickets.service';
 
 @Component({
   selector: 'fly-home',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  tickets$: Observable<Ticket[]>;
+
+  constructor(
+    private ticketsService: TicketsService
+  ) { }
 
   ngOnInit() {
+    this.tickets$ = this.ticketsService.getAllTickets();
   }
 
 }
