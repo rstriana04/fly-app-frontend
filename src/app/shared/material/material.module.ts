@@ -2,11 +2,17 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  MatAutocompleteModule,
   MatButtonModule,
   MatCardModule,
+  MatDatepickerModule,
+  MatDialogModule,
   MatDividerModule,
   MatFormFieldModule,
-  MatIconModule, MatInputModule, MatPaginatorModule,
+  MatIconModule,
+  MatInputModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
   MatStepperModule,
   MatTableModule,
   MatToolbarModule
@@ -25,7 +31,11 @@ import {
     FormsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule
   ],
   imports: [
     CommonModule

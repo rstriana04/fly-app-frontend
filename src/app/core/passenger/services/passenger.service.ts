@@ -29,4 +29,11 @@ export class PassengerService {
     });
   }
 
+  updatePassenger(passenger: Passenger): Observable<any> {
+    return this.http.put(`${ environment.apiUrl }/passengers`, passenger, {
+      observe: 'response',
+      responseType: 'json'
+    });
+  }
+
 }

@@ -1,4 +1,113 @@
 <fly-sidenav></fly-sidenav>
-<fly-footer></fly-footer>
+<main>
+  <mat-horizontal-stepper [linear]="isLinear">
+    <mat-step label="Tiquetes">
+      <button mat-button matStepperNext color="primary">Siguiente</button>
+<!--      <div class="mat-elevation-z8">-->
+<!--        <table mat-table [dataSource]="passenger$ | async" class="w-100 align-items-center text-center">-->
+<!--          <ng-container matColumnDef="email">-->
+<!--            <th mat-header-cell *matHeaderCellDef class="text-center">Email</th>-->
+<!--            <td mat-cell *matCellDef="let passenger"> {{passenger.email}} </td>-->
+<!--          </ng-container>-->
 
+<!--          <ng-container matColumnDef="name">-->
+<!--            <th mat-header-cell *matHeaderCellDef class="text-center">Nombre Completo</th>-->
+<!--            <td mat-cell *matCellDef="let passenger"> {{passenger.nombreCompleto}} </td>-->
+<!--          </ng-container>-->
+
+<!--          <ng-container matColumnDef="edit">-->
+<!--            <th mat-header-cell *matHeaderCellDef class="text-center">Editar</th>-->
+<!--            <td mat-cell *matCellDef="let passenger">-->
+<!--              <mat-icon class="cursor-pointer" color="primary" (click)="showEditPassenger(passenger.id)">edit</mat-icon>-->
+<!--            </td>-->
+<!--          </ng-container>-->
+
+<!--          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+<!--        </table>-->
+
+<!--        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>-->
+<!--      </div>-->
+    </mat-step>
+    <mat-step label="Crear Tiquete">
+      <div class="container">
+        <button mat-button matStepperPrevious>Atrás</button>
+        <div class="row">
+          <div class="col-12">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Crear Tiquete</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="container">
+                  <form [formGroup]="ticketForm" (submit)="registerTicket(ticketForm)">
+                    <div class="row">
+                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <mat-form-field appearance="outline" class="w-100">
+                          <mat-label>Valor Tiquete</mat-label>
+                          <input matInput placeholder="15" type="money" formControlName="valorTiquete">
+                          <mat-icon matSuffix>attach_money</mat-icon>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <mat-form-field appearance="outline" class="w-100">
+                          <mat-label>Iva Tiquete</mat-label>
+                          <input matInput placeholder="15" type="number" min="1" formControlName="ivaTiquete">
+                          <mat-icon matSuffix>trending_up</mat-icon>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <mat-form-field appearance="outline" class="w-100">
+                          <mat-label>Descuento Tiquete</mat-label>
+                          <input matInput placeholder="15" type="number" min="1" formControlName="descuentoTiquete">
+                          <mat-icon matSuffix>trending_up</mat-icon>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <mat-form-field class="w-100">
+                          <input type="text" placeholder="Pasajero" aria-label="Number" matInput
+                                  [matAutocomplete]="auto" formControlName="passenger">
+                          <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let passenger of filteredPassengers$ | async"
+                                        [value]="passenger.nombreCompleto"
+                                        (onSelectionChange)="setPassengerToControl(passenger)">
+                              {{passenger.nombreCompleto}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <mat-form-field class="w-100">
+                          <input type="text" placeholder="Vuelo" aria-label="Number" matInput
+                                 [matAutocomplete]="autoAirplane" formControlName="airplane">
+                          <mat-autocomplete #autoAirplane="matAutocomplete">
+                            <mat-option *ngFor="let flight of filteredFlights$ | async"
+                                        [value]="flight.descripcion"
+                                        (onSelectionChange)="setFlightsToControl(flight)">
+                              {{flight.descripcion}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+
+
+                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <button mat-raised-button color="primary" type="submit">
+                          Crear
+                          <mat-icon>send</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</main>
+<fly-footer></fly-footer>
 <router-outlet></router-outlet>

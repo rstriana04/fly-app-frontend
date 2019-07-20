@@ -1,51 +1,41 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatPaginator } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Passenger } from './models/Passenger';
 import { PassengerService } from './services/passenger.service';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+import { ShowPopupEditComponent } from './show-popup-edit/show-popup-edit.component';
 
 @Component({
   selector: 'fly-passenger',
   templateUrl: './passenger.component.html',
-  styleUrls: ['./passenger.component.scss']
+  styleUrls: ['./passenger.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PassengerComponent implements OnInit {
   isLinear = false;
   displayedColumns: string[] = ['email', 'name', 'edit'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   passengerForm: FormGroup;
-  paseenger$: Observable<Passenger[]>;
+  passenger$: Observable<Passenger[]>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private passengerService: PassengerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private changeDetectorRefs: ChangeDetectorRef,
+    private matDialog: MatDialog
   ) {
   }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-
     this.initPassengerForm();
-    this.paseenger$ = this.passengerService.getAllPassengers();
-    this.paseenger$.subscribe(passengers => {
-      console.log(passengers);
-    });
-
+    this.passenger$ = this.passengerService.getAllPassengers();
   }
 
   private initPassengerForm() {
     this.passengerForm = new FormGroup({
-      email: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
       nombreCompleto: new FormControl('', Validators.required)
     });
   }
@@ -55,6 +45,7 @@ export class PassengerComponent implements OnInit {
       this.passengerService.createPassenger(passengerForm.value).subscribe(resp => {
         if ( resp.status === 200 ) {
           this.toastr.success('Pasajero creado correctamente!', '¡Correcto!');
+          this.refresh();
           this.passengerForm.reset();
         } else {
           this.toastr.error('Ocurrio un error creando el pasajero', 'Ooops!!');
@@ -64,27 +55,24 @@ export class PassengerComponent implements OnInit {
       this.toastr.info('Completa el formulario', 'Ooops!!');
     }
   }
+
+  private refresh() {
+    this.passenger$ = this.passengerService.getAllPassengers();
+    this.changeDetectorRefs.detectChanges();
+  }
+
+  public showEditPassenger(id: number) {
+    const dialogRef = this.matDialog.open(ShowPopupEditComponent, {
+      width: '400px',
+      data: id
+    });
+
+    dialogRef.afterClosed().subscribe(resp => {
+      if ( resp ) {
+        this.refresh();
+      }
+    });
+
+  }
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na' },
-  { position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg' },
-  { position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al' },
-  { position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si' },
-  { position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P' },
-  { position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S' },
-  { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
-  { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
-  { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' }
-];
