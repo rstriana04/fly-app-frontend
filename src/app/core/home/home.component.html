@@ -38,13 +38,15 @@
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="!!tickets$">
-    <div class="container d-flex align-items-center justify-content-center text-center">
-      <h1>¡Aún no tienes vuelos registrados!</h1>
-      <img src="./../../../assets/img/not-found.png" class="img-fluid" alt="404 not found">
-    </div>
-  </ng-container>
 
+  <ng-container *ngIf="tickets$ | async as tickets">
+    <ng-container *ngIf="!tickets.length">
+      <div class="container d-flex align-items-center justify-content-center text-center">
+        <h1>¡Aún no tienes vuelos registrados!</h1>
+        <img src="./../../../assets/img/not-found.png" class="img-fluid" alt="404 not found">
+      </div>
+    </ng-container>
+  </ng-container>
 </main>
 
 <fly-footer></fly-footer>
