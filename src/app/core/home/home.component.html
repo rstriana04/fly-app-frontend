@@ -23,9 +23,9 @@
               <mat-card-content>
                 <ul>
                   <li>Pasajero: {{ticket.passengers.nombreCompleto}}</li>
-                  <li>Descuento: {{ticket.descuentoTiquete}}</li>
-                  <li>Iva: {{ticket.ivaTiquete}}</li>
-                  <li>Valor: {{ticket.valorTiquete}}</li>
+                  <li>Descuento: {{ticket.descuentoTiquete | percent}}</li>
+                  <li>Iva: {{ticket.ivaTiquete | currency}}</li>
+                  <li>Valor: {{ticket.valorTiquete | currency}}</li>
                 </ul>
               </mat-card-content>
               <mat-card-actions>

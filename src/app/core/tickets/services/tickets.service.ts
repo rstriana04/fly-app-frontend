@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { Ticket } from '../models/Ticket';
 
@@ -17,7 +17,7 @@ export class TicketsService {
       observe: 'response',
       responseType: 'json'
     }).pipe(
-      map(tickets => tickets.body)
+      pluck('body')
     );
   }
 

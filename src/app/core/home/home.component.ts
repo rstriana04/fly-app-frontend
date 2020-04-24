@@ -14,9 +14,10 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private ticketsService: TicketsService
-  ) { }
+  ) {}
 
   ngOnInit() {
+
     this.tickets$ = this.ticketsService.getAllTickets();
   }
 
